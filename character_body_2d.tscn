@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://n8ys7rxhnk1s"]
+
+[ext_resource type="Script" path="res://Mov1.gd" id="1_l3y8b"]
+[ext_resource type="Texture2D" uid="uid://q8condvengh1" path="res://Sprite-0001.png" id="2_n2i20"]
+[ext_resource type="PackedScene" uid="uid://bc5eq2t5sexl6" path="res://health.tscn" id="3_jsbi6"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ruwkg"]
+height = 54.66
+
+[node name="Player" type="CharacterBody2D"]
+position = Vector2(16, 0)
+script = ExtResource("1_l3y8b")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(229, 172)
+rotation = -0.0196839
+scale = Vector2(0.874253, 0.832671)
+skew = 0.0240178
+shape = SubResource("CapsuleShape2D_ruwkg")
+one_way_collision_margin = 0.0
+
+[node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D"]
+texture_filter = 1
+position = Vector2(0, -2.38419e-05)
+texture = ExtResource("2_n2i20")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+light_mask = 7
+visibility_layer = 7
+position = Vector2(205, 140)
+zoom = Vector2(3, 3)
+
+[node name="Health" parent="." instance=ExtResource("3_jsbi6")]
+offset_left = 261.0
+offset_top = 52.0
+offset_right = 389.0
+offset_bottom = 59.0
+
+[connection signal="player_stats_changed" from="." to="Health" method="_on_character_body_2d_player_stats_changed"]

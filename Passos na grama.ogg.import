@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://20ncbsbs654y"
+path="res://.godot/imported/Passos na grama.ogg-eb99082691d402da6c8b9adc53b9c48e.oggvorbisstr"
+
+[deps]
+
+source_file="res://Passos na grama.ogg"
+dest_files=["res://.godot/imported/Passos na grama.ogg-eb99082691d402da6c8b9adc53b9c48e.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,124 @@
+[gd_scene load_steps=12 format=3 uid="uid://r36ntijcrnf6"]
+
+[ext_resource type="Script" path="res://Mov1.gd" id="1_qlt73"]
+[ext_resource type="Texture2D" uid="uid://2fa63yli0mgq" path="res://Nylo_the_Moth.png" id="2_n2nv2"]
+[ext_resource type="PackedScene" uid="uid://bc5eq2t5sexl6" path="res://health.tscn" id="3_kqfwj"]
+[ext_resource type="PackedScene" uid="uid://bf0nmkp2q0sm0" path="res://gun_obj.tscn" id="4_wdjni"]
+[ext_resource type="AudioStream" uid="uid://20ncbsbs654y" path="res://Passos na grama.ogg" id="5_8in25"]
+[ext_resource type="Texture2D" uid="uid://flyb72bo06is" path="res://nylo_back_idle.png" id="5_weh3r"]
+
+[sub_resource type="Animation" id="Animation_2esvc"]
+resource_name = "new_animation"
+length = 5.00001
+loop_mode = 1
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AudioStreamPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("5_8in25")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.1,
+"stream": ExtResource("5_8in25")
+}],
+"times": PackedFloat32Array(0, 0.1)
+}
+tracks/0/use_blend = true
+
+[sub_resource type="Animation" id="Animation_yq08l"]
+resource_name = "new_animation_2"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_e1gjx"]
+_data = {
+"new_animation": SubResource("Animation_2esvc"),
+"new_animation_2": SubResource("Animation_yq08l")
+}
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ruwkg"]
+radius = 7.62845
+height = 53.6884
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6hlnj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_weh3r")
+}],
+"loop": true,
+"name": &"idle_back",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_n2nv2")
+}],
+"loop": true,
+"name": &"idle_front",
+"speed": 5.0
+}]
+
+[node name="Player" type="CharacterBody2D"]
+position = Vector2(229, 180)
+scale = Vector2(1, 0.951263)
+floor_stop_on_slope = false
+platform_on_leave = 2
+platform_floor_layers = 4294967041
+platform_wall_layers = 1
+script = ExtResource("1_qlt73")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+light_mask = 7
+visibility_layer = 7
+position = Vector2(-8, -8)
+zoom = Vector2(3, 3)
+
+[node name="Health" parent="Camera2D" instance=ExtResource("3_kqfwj")]
+offset_left = 56.0
+offset_top = -88.0
+offset_right = 184.0
+offset_bottom = -81.0
+
+[node name="Gun_obj" parent="." instance=ExtResource("4_wdjni")]
+light_mask = 31
+visibility_layer = 31
+position = Vector2(-29, 4)
+collision_layer = 8
+collision_mask = 8
+input_pickable = true
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+reset_on_save = false
+libraries = {
+"": SubResource("AnimationLibrary_e1gjx")
+}
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_8in25")
+volume_db = -32.426
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-8, -8)
+rotation = -0.0196839
+scale = Vector2(0.84, 0.8)
+skew = 0.0240178
+shape = SubResource("CapsuleShape2D_ruwkg")
+one_way_collision_margin = 0.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-4.99999, -4.20493)
+scale = Vector2(0.589999, 0.608568)
+sprite_frames = SubResource("SpriteFrames_6hlnj")
+animation = &"idle_front"
+
+[connection signal="timeout" from="Timer" to="Gun_obj" method="_on_timer_timeout"]
